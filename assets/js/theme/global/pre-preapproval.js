@@ -9,21 +9,16 @@ export default function (context) {
     $('body').on('click', '.header-approval-button', event => {
         event.preventDefault();
         event.stopImmediatePropagation;
-        // modal.open({size: 'large'})  
+    
         const modalBackground = createModalBackground(); 
         const modalContainer = createModalContainer();     
         const modalContent = createModalDiv();
         const header = createModalHeader();
         const body = createModalBody();
-        const footer = createModalFooter();
         // Construction
         modalContent.appendChild(header);
         modalContent.appendChild(body);
-        // modalContent.appendChild(footer);
 
-        // const modalEl = document.querySelector('#modal');
-        // modalEl.style.maxHeight = '100vh';
-        // modal.updateContent(modalContent, true);
         modalContainer.appendChild(modalContent);
         modalBackground.appendChild(modalContainer);
         document.body.appendChild(modalBackground);
@@ -136,7 +131,7 @@ export default function (context) {
         closeButton.style.backgroundColor = 'transparent';
         closeButton.style.border = '0';
         closeButton.style.float = 'right';
-        closeButton.style.fontSize = '1.5rem';
+        closeButton.style.fontSize = '1.75rem';
         closeButton.style.fontWeight = '700';
         closeButton.style.lineHeight = '1';
         closeButton.style.color = '#000';
@@ -157,16 +152,51 @@ export default function (context) {
 
     const createModalBody = () => {
         const body = document.createElement('div');
-        body.style.minHeight = '400px';
-        body.style.width = '100%';
+        body.style.flex = '1 1 auto';
+        body.style.webkitBoxFlex = '1';
+        body.style.padding = '1.25rem';
+        
+        const bodyContainer = document.createElement('div');
+        bodyContainer.style.width = '100%';
+        bodyContainer.style.paddingLeft = '15px';
+        bodyContainer.style.paddingRight = '15px';
+        bodyContainer.style.marginLeft = 'auto';
+        bodyContainer.style.marginRight = 'auto';
+        
+        const content = document.createElement('div');
+        content.setAttribute('class', 'pre-preapproval');
+        
+        const title = createModalTitle();
+
+        const description = document.createElement('p');
+        description.style.fontSize = '16px';
+        description.style.lineHeight = '20px';
+        description.style.fontFamily = 'Arial,Helvetica,sans-serif';
+        description.style.color = '#6f7b91';
+        const descriptionText = document.createElement('p');
+        descriptionText.innerHTML = 'Click \'Submit\' and we\'ll text you a verification code'
+        description.appendChild(descriptionText);
+
+        content.appendChild(title);
+        content.appendChild(description);
+        bodyContainer.appendChild(content);
+        body.appendChild(bodyContainer);
         return body;
     };
 
-    const createModalFooter = () => {
-        const footer = document.createElement('div');
-        footer.style.minHeight = '60px';
-        footer.style.width = '100%';
-        footer.style.backgroundColor = 'blue';
-        return footer;
+    const createModalTitle = () => {
+        const title = document.createElement('h3');
+        title.style.fontWeight = '700';
+        title.style.fontSize = '20px';
+        title.style.lineHeight = '24px';
+        title.style.fontFamily = 'Lato,sans-serif';
+        title.style.color = '#004987';
+        title.style.marginTop = '1rem';
+        title.style.paddingBottom = '1rem';
+        title.style.marginBottom = '1rem';
+        title.style.borderBottom = '1px solid rgba(0,0,0,.1)';
+        const titleText = document.createTextNode('Enter your information to begin');
+        title.appendChild(titleText);
+        return title;
     };
 }
