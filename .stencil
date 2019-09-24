@@ -1,0 +1,11 @@
+{
+  "normalStoreUrl": "https://buyontrust.com",
+  "accessToken": "3n70akgn7d7sxmviuwu8k78ab62qumh",
+  "port": "3000",
+  "customLayouts": {
+    "brand": {},
+    "category": {},
+    "page": {},
+    "product": {}
+  }
+}

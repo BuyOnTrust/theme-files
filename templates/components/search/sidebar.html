@@ -1,0 +1,26 @@
+<nav>
+    {{#if product_results.faceted_search_enabled}}
+        {{> components/faceted-search/index product_results}}
+    {{/if}}
+
+    {{#if theme_settings.show_sidenav_featured_banner '===' true}}
+    {{#if theme_settings.external_link_sidenav '===' true}}
+    <!-- BEGIN SIDENAV BANNER -->
+      <div class="sidenav-banner zoom-image-container">
+        <a target="_blank" href="{{theme_settings.featured_sidenav_link}}">
+          <img class="sidenav-image lazyload" src="/product_images/uploaded_images/{{theme_settings.featured_sidenav_image}}" alt="{{theme_settings.featured_sidenav_banner_name}}" title="{{theme_settings.featured_sidenav_banner_name}}" />
+        </a>
+      </div>
+    <!-- END SIDENAV BANNER -->
+    {{/if}}
+    {{#if theme_settings.external_link_sidenav '===' false}}
+    <!-- BEGIN SIDENAV BANNER -->
+      <div class="sidenav-banner zoom-image-container">
+        <a target="_self" href="/{{theme_settings.featured_sidenav_link}}">
+          <img class="sidenav-image lazyload" src="/product_images/uploaded_images/{{theme_settings.featured_sidenav_image}}" alt="{{theme_settings.featured_sidenav_banner_name}}" title="{{theme_settings.featured_sidenav_banner_name}}" />
+        </a>
+      </div>
+    <!-- END SIDENAV BANNER -->
+    {{/if}}
+    {{/if}}
+</nav>

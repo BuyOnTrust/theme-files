@@ -1,0 +1,42 @@
+<nav>
+    {{#if category.subcategories}}
+    <div class="sidebarBlock">
+        <h5 class="sidebarBlock-heading">{{category.name}}</h5>
+        <ul class="navList">
+            {{#each category.subcategories}}
+            <li class="navList-item">
+                <a class="navList-action" href="{{url}}" alt="{{name}}" title="{{name}}">{{name}}</a>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{/if}}
+
+    {{#if category.faceted_search_enabled}}
+        {{> components/faceted-search/index category}}
+    {{else}}
+        {{> components/category/shop-by-price shop_by_price=category.shop_by_price category_url=category.url}}
+    {{/if}}
+
+    {{#if theme_settings.show_sidenav_featured_banner '===' true}}
+    {{#if theme_settings.external_link_sidenav '===' true}}
+    <!-- BEGIN SIDENAV BANNER -->
+      <div class="sidenav-banner zoom-image-container">
+        <a target="_blank" href="{{theme_settings.featured_sidenav_link}}">
+          <img class="sidenav-image lazyload" src="/product_images/uploaded_images/{{theme_settings.featured_sidenav_image}}" alt="{{theme_settings.featured_sidenav_banner_name}}" title="{{theme_settings.featured_sidenav_banner_name}}" />
+        </a>
+      </div>
+    <!-- END SIDENAV BANNER -->
+    {{/if}}
+    {{#if theme_settings.external_link_sidenav '===' false}}
+    <!-- BEGIN SIDENAV BANNER -->
+      <div class="sidenav-banner zoom-image-container">
+        <a target="_self" href="/{{theme_settings.featured_sidenav_link}}">
+          <img class="sidenav-image lazyload" src="/product_images/uploaded_images/{{theme_settings.featured_sidenav_image}}" alt="{{theme_settings.featured_sidenav_banner_name}}" title="{{theme_settings.featured_sidenav_banner_name}}" />
+        </a>
+      </div>
+    <!-- END SIDENAV BANNER -->
+    {{/if}}
+    {{/if}}
+
+</nav>
