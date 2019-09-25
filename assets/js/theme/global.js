@@ -15,6 +15,7 @@ import carousel from './common/carousel';
 import 'lazysizes';
 import loadingProgressBar from './global/loading-progress-bar';
 import svgInjector from './global/svg-injector';
+import checkout from './global/checkout';
 
 export default class Global extends PageManager {
     onReady() {
@@ -36,5 +37,6 @@ export default class Global extends PageManager {
         maintenanceMode(this.context.maintenanceMode);
         loadingProgressBar();
         svgInjector();
+        checkout(this.context)
     }
 }
