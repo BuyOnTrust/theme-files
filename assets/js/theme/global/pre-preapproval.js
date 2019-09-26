@@ -15,29 +15,36 @@ export default function () {
 };
 
 export const showPhoneOptinModal = () => {
-    const modalBackground = createModalBackground(); 
-    const modalContainer = createModalContainer();     
-    const modalContent = createModalDiv();
-    const header = createModalHeader();
-    const body = createModalBody();
-    // Construction
-    modalContent.appendChild(header);
-    modalContent.appendChild(body);
+    const modalPackage = document.getElementById('preapproval-bg');
+    if (!modalPackage) {
+        const modalBackground = createModalBackground(); 
+        const modalContainer = createModalContainer();     
+        const modalContent = createModalDiv();
+        const header = createModalHeader();
+        const body = createModalBody();
+        // Construction
+        modalContent.appendChild(header);
+        modalContent.appendChild(body);
+    
+        modalContainer.appendChild(modalContent);
+        modalBackground.appendChild(modalContainer);
+        document.body.appendChild(modalBackground);
+    } else {
+        modalPackage.style.display = 'block';
+    }
 
-    modalContainer.appendChild(modalContent);
-    modalBackground.appendChild(modalContainer);
-    document.body.appendChild(modalBackground);
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modalPackage) {
+            modalPackage.style.display = "none";
+        }
+    }
 };
 // div#preapproval-bg
 const createModalBackground = () => {
     const background = document.createElement('div');
     background.setAttribute('id', 'preapproval-bg');
     background.setAttribute('allowtransparency', 'true');
-    background.addEventListener('click', (e) => {
-        e.preventDefault();
-        const approvalModal = document.getElementById('preapproval-bg');
-        if(approvalModal) {approvalModal.remove();}
-    })
     return background;
 };
 // div.frame
@@ -50,11 +57,7 @@ const createModalContainer = () => {
 const createModalDiv = () => {
     const modalContent = document.createElement('div');
     modalContent.setAttribute('id', 'preapproval-form');
-    modalContent.setAttribute('allowtransparency', 'true');      
-    modalContent.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-    })
+    // modalContent.setAttribute('allowtransparency', 'true');      
     return modalContent;
 };
 // Header
@@ -95,9 +98,8 @@ const createCloseButton = () => {
     const closeButton = document.createElement('button');
     closeButton.setAttribute('class', 'close-button-modal');
     closeButton.addEventListener('click', (e) => {
-        e.preventDefault();
         const approvalModal = document.getElementById('preapproval-bg');
-        if (approvalModal) { approvalModal.remove(); }
+        if (approvalModal) { approvalModal.style.display = 'none'; }
     })
 
     const mark = document.createElement('span');
@@ -122,7 +124,7 @@ const createModalBody = () => {
     const description = document.createElement('p');
     description.setAttribute('class', 'modal-description-text')
     const descriptionText = document.createElement('p');
-    descriptionText.innerHTML = 'Click \'Submit\' and we\'ll text you a verification code (standard SMS charges may apply)'
+    descriptionText.innerHTML = 'After you click \'Submit\', we\'ll text you a verification code'
     description.appendChild(descriptionText);
 
     const form = createModalForm();
@@ -150,12 +152,29 @@ const createModalForm = () => {
 
     const nameInput = createInputEl('fullname', 'Full Name', 'text', 'Full Name');
     const phoneInput = createInputEl('phone', 'Phone Number', 'tel', '801-456-7890');
+    const acimaSpan = createAcimaPolicySpan();
+    const textOptSpan = document.createElement('span');
+    textOptSpan.innerHTML = 'I agree to recieve text messages from BuyOnTrust (standard SMS charges may apply)'
+    
+    const acimaPolicy = createFormPolicy('acima-policy', false, acimaSpan);
+    const botPolicy = createFormPolicy('phone-policy', true, textOptSpan);
+    const submitButton = createModalButton();
 
     form.appendChild(nameInput);
     form.appendChild(phoneInput);
-
+    form.appendChild(acimaPolicy);
+    form.appendChild(botPolicy);
+    form.appendChild(submitButton);
     return form;
 }
+
+const createModalButton = () => {
+    const button = document.createElement('button');
+    button.setAttribute('class', 'prepre-submit-btn');
+    button.setAttribute('type', 'submit');
+    button.innerHTML = 'Submit';
+    return button;
+};
 
 const createInputEl = (name, labelText, type, placeholder) => {
     const input = document.createElement('div');
@@ -175,3 +194,52 @@ const createInputEl = (name, labelText, type, placeholder) => {
     input.appendChild(inputEl);
     return input;
 }
+
+const createFormPolicy = (name, checked, span) => {
+    const policyForm = document.createElement('div');
+    policyForm.setAttribute('class', 'form-check-policy');
+
+    const checkLabel = document.createElement('label');
+    checkLabel.setAttribute('class', 'form-check-label');
+
+    const inputEl = document.createElement('input');
+    inputEl.setAttribute('id', name);
+    inputEl.setAttribute('name', name);
+    inputEl.setAttribute('type', 'checkbox');
+    inputEl.setAttribute('class', 'form-check-input');
+    if (checked) { inputEl.setAttribute('checked', true);};  
+
+    checkLabel.appendChild(inputEl)
+    checkLabel.appendChild(span);
+    policyForm.appendChild(checkLabel);
+    return policyForm;
+};
+
+const createAcimaPolicySpan = () => {
+    const span = document.createElement('span');
+    const text1 = document.createTextNode('I have read Acima\'s ');
+    const link1 = createLinkEl('https://www.acimacredit.com/privacy-policy', 'Privacy Policy');
+    const text2 = document.createTextNode(', ');
+    const link2 = createLinkEl('https://www.acimacredit.com/e-sign-policy', 'ESIGN Disclosure');
+    const text3 = document.createTextNode(', and ');
+    const link3 = createLinkEl('https://www.acimacredit.com/terms-of-service', 'Terms of Use');
+
+    span.appendChild(text1);
+    span.appendChild(link1);
+    span.appendChild(text2);
+    span.appendChild(link2);
+    span.appendChild(text3);
+    span.appendChild(link3);
+    return span;
+}
+
+const createLinkEl = (linkout, text) => {
+    const link = document.createElement('a');
+    link.setAttribute('class', 'policy-link');
+    link.setAttribute('href', linkout);
+    link.setAttribute('target', '_blank');
+    link.setAttribute('tabindex', '-1');
+    link.innerHTML = text;
+    return link;
+}
+

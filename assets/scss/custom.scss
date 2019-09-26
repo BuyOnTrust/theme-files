@@ -1,6 +1,6 @@
 // PASTE CUSTOM STYLING HERE
 #preapproval-bg {
-    z-index: 1000;
+    z-index: 100;
     position: fixed;
     top: 0px;
     left: 0px;
@@ -42,7 +42,7 @@
 
 .modal-title {
     font-weight: 700;
-    font-size: 20px;
+    font-size: 1.5rem;
     line-height: 24px;
     font-family: Lato,sans-serif;
     color: #004987;
@@ -50,6 +50,7 @@
     padding-bottom: 1rem;
     margin-bottom: 1rem;
     border-bottom: 1px solid rgba(0,0,0,.1);
+    text-transform: uppercase;
 }
 
 #preapproval-form {
@@ -115,25 +116,29 @@
 }
 
 .form-helper-text {
-    margin-bottom: .25rem;
+    margin-bottom: .75rem;
 }
 
 .form-helper-label {
     display: inline-block;
     margin-bottom: .5rem;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 24px;
+    font-family: Lato,sans-serif;
+    color: #004987;
 }
 
 .form-control-input {
-    margin: 0 0 20px 0;
-    font-family: inherit;
+    margin: 0;
     overflow: visible;
-    display: block;
+    display: inline-block;
     width: 100%;
     padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 16px;
+    line-height: 27px;
     color: #495057;
+    opacity: 0.5;
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid #ced4da;
@@ -166,6 +171,7 @@
     box-sizing: border-box;
     padding: 0;
     margin-top: .15rem;
+    z-index: 1010;
 }
 
 .policy-link {
@@ -177,7 +183,7 @@
 
 .prepre-submit-btn {
     margin: 0;
-    font-family: inherit;
+    font-family: Helvetica, Arial, sans-serif;;
     overflow: visible;
     -webkit-appearance: button;
     font-weight: 400;
@@ -186,8 +192,8 @@
     user-select: none;
     border: 1px solid transparent;
     padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 18px;
+    line-height: 27px;
     border-radius: .25rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s
     ease-in-out;
@@ -197,6 +203,10 @@
     display: block;
     width: 100%;
     margin-top: 1rem!important;
+}
+
+.prepre-submit-btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
 }
 
 .is-invalid {
