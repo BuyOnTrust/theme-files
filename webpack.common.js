@@ -10,6 +10,10 @@ module.exports = {
     context: __dirname,
     entry: {
         main: './assets/js/app.js',
+        'checkout-sdk': './assets/js/checkout-app/index.ts',
+        'checkout-button': './assets/js/checkout-app/bundles/checkout-button.ts',
+        'embedded-checkout': './assets/js/checkout-app/bundles/embedded-checkout.ts',
+        'internal-mappers': './assets/js/checkout-app/bundles/internal-mappers.ts',
     },
     module: {
         rules: [
@@ -25,14 +29,52 @@ module.exports = {
                         ],
                         presets: [
                             ['@babel/preset-env', {
-                                loose: true, // Enable "loose" transformations for any plugins in this preset that allow them
-                                modules: false, // Don't transform modules; needed for tree-shaking
-                                // useBuiltIns: 'usage', // Tree-shake babel-polyfill
-                                targets: '> 1%, last 2 versions, Firefox ESR',
-                            }],
+                                corejs: 3,
+                                targets: [
+                                    'defaults',
+                                    'ie 11',
+                                ],
+                                useBuiltIns: 'usage',
+                            },],
                         ],
                     },
                 },
+            },
+            {
+                test: /\.jsx$/,
+                exclude: /node_modules/,
+                include: /(assets\/js|assets\\js)/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ['@babel/preset-react'],
+                    },
+                }
+            },
+            {
+                test: /\.scss$/,
+                exclude: /node_modules/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true
+                        }
+                    },
+                    'sass-loader'
+                ],
+            },
+            {
+                parser: {
+                    amd: false,
+                },
+            },
+            {
+                test: /\.(js|ts)$/,
+                exclude: /node_modules/,
+                include: /(assets\/js|assets\\js)/,
+                loader: 'ts-loader',
             },
         ],
     },
@@ -63,6 +105,7 @@ module.exports = {
         }),
     ],
     resolve: {
+        extensions: ['.ts', '.js', '.jsx'],
         alias: {
             jquery: path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
             jstree: path.resolve(__dirname, 'node_modules/jstree/dist/jstree.min.js'),
