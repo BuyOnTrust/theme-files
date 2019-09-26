@@ -3,7 +3,6 @@ import 'foundation-sites/js/foundation/foundation.dropdown';
 
 export default function () {
     const applyButtonHeader = document.querySelector('.header-approval-button');
-    const applyButtonHow = document.querySelector('#apply-now-button');
 
     if(applyButtonHeader) {
         applyButtonHeader.addEventListener('click', (e) => {
@@ -12,18 +11,10 @@ export default function () {
             showPhoneOptinModal();
         })
     };
-    
-    if(applyButtonHow) {
-        applyButtonHow.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopImmediatePropagation;
-            showPhoneOptinModal();
-        })
-    }
    
 };
 
-const showPhoneOptinModal = () => {
+export const showPhoneOptinModal = () => {
     const modalBackground = createModalBackground(); 
     const modalContainer = createModalContainer();     
     const modalContent = createModalDiv();
@@ -77,12 +68,8 @@ const createModalHeader = () => {
     headerWrap.setAttribute('class', 'header-wrap-acima')
 // Logo
     const logoContainer = document.createElement('div');
+    logoContainer.setAttribute('id', 'pre-preapproval-logo-container');
     logoContainer.setAttribute('class', 'header-logo-container');
-    logoContainer.style.width = '170px';
-    logoContainer.style.height = '70px';
-    logoContainer.style.display = 'flex';
-    logoContainer.style.alignItems = 'center';
-    logoContainer.style.justifyContent = 'flex-end';
     const logo = document.createElement('img');
     logo.setAttribute('class', 'header-logo-image');
     logo.setAttribute('src', 'https://cdn11.bigcommerce.com/s-90vdngbq7j/images/stencil/150x60/buy-on-trust-logo_1563418732__08831.original.png');
@@ -91,10 +78,7 @@ const createModalHeader = () => {
     logoContainer.appendChild(logo);
 // Tag
     const tag = document.createElement('div');
-    tag.style.color = '#004987';
-    tag.style.fontWeight = '700';
-    tag.style.fontFamily = 'Lato,sans-serif';
-    tag.style.fontSize = '15px';
+    tag.setAttribute('class', 'header-tag');    
     const tagText = document.createTextNode('Buy On Trust');
     tag.appendChild(tagText);
 
@@ -109,17 +93,7 @@ const createModalHeader = () => {
 
 const createCloseButton = () => {
     const closeButton = document.createElement('button');
-    closeButton.setAttribute('class', 'close');
-    closeButton.style.padding = '0';
-    closeButton.style.backgroundColor = 'transparent';
-    closeButton.style.border = '0';
-    closeButton.style.float = 'right';
-    closeButton.style.fontSize = '1.75rem';
-    closeButton.style.fontWeight = '700';
-    closeButton.style.lineHeight = '1';
-    closeButton.style.color = '#000';
-    closeButton.style.textShadow = '0 1px 0 #fff';
-    closeButton.style.opacity = '.5';
+    closeButton.setAttribute('class', 'close-button-modal');
     closeButton.addEventListener('click', (e) => {
         e.preventDefault();
         const approvalModal = document.getElementById('preapproval-bg');
@@ -135,16 +109,10 @@ const createCloseButton = () => {
 
 const createModalBody = () => {
     const body = document.createElement('div');
-    body.style.flex = '1 1 auto';
-    body.style.webkitBoxFlex = '1';
-    body.style.padding = '1.25rem';
+    body.setAttribute('class', 'pre-preapproval-body');
     
     const bodyContainer = document.createElement('div');
-    bodyContainer.style.width = '100%';
-    bodyContainer.style.paddingLeft = '15px';
-    bodyContainer.style.paddingRight = '15px';
-    bodyContainer.style.marginLeft = 'auto';
-    bodyContainer.style.marginRight = 'auto';
+    bodyContainer.setAttribute('class', 'pre-preapproval-body-container');
     
     const content = document.createElement('div');
     content.setAttribute('class', 'pre-preapproval');
@@ -152,16 +120,17 @@ const createModalBody = () => {
     const title = createModalTitle();
 
     const description = document.createElement('p');
-    description.style.fontSize = '16px';
-    description.style.lineHeight = '20px';
-    description.style.fontFamily = 'Arial,Helvetica,sans-serif';
-    description.style.color = '#6f7b91';
+    description.setAttribute('class', 'modal-description-text')
     const descriptionText = document.createElement('p');
-    descriptionText.innerHTML = 'Click \'Submit\' and we\'ll text you a verification code'
+    descriptionText.innerHTML = 'Click \'Submit\' and we\'ll text you a verification code (standard SMS charges may apply)'
     description.appendChild(descriptionText);
+
+    const form = createModalForm();
 
     content.appendChild(title);
     content.appendChild(description);
+    content.appendChild(form);
+
     bodyContainer.appendChild(content);
     body.appendChild(bodyContainer);
     return body;
@@ -169,16 +138,40 @@ const createModalBody = () => {
 
 const createModalTitle = () => {
     const title = document.createElement('h3');
-    title.style.fontWeight = '700';
-    title.style.fontSize = '20px';
-    title.style.lineHeight = '24px';
-    title.style.fontFamily = 'Lato,sans-serif';
-    title.style.color = '#004987';
-    title.style.marginTop = '1rem';
-    title.style.paddingBottom = '1rem';
-    title.style.marginBottom = '1rem';
-    title.style.borderBottom = '1px solid rgba(0,0,0,.1)';
+    title.setAttribute('class', 'modal-title')
     const titleText = document.createTextNode('Enter your information to begin');
     title.appendChild(titleText);
     return title;
 };
+
+const createModalForm = () => {
+    const form = document.createElement('form');
+    form.setAttribute('class', 'capture-info-form');
+
+    const nameInput = createInputEl('fullname', 'Full Name', 'text', 'Full Name');
+    const phoneInput = createInputEl('phone', 'Phone Number', 'tel', '801-456-7890');
+
+    form.appendChild(nameInput);
+    form.appendChild(phoneInput);
+
+    return form;
+}
+
+const createInputEl = (name, labelText, type, placeholder) => {
+    const input = document.createElement('div');
+    input.setAttribute('class', 'form-helper-text');
+
+    const label = document.createElement('label');
+    label.setAttribute('class', 'form-helper-label');
+    label.innerHTML = labelText;
+
+    const inputEl = document.createElement('input');
+    inputEl.setAttribute('class', 'form-control-input');
+    inputEl.setAttribute('name', name);
+    inputEl.setAttribute('placeholder', placeholder);
+    inputEl.setAttribute('type', type);
+
+    input.appendChild(label);
+    input.appendChild(inputEl);
+    return input;
+}
