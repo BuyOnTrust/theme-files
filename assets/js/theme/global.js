@@ -7,7 +7,6 @@ import mobileMenuToggle from './global/mobile-menu-toggle';
 import menu from './global/menu';
 import foundation from './global/foundation';
 import quickView from './global/quick-view';
-import preApproval from './global/pre-preapproval';
 import cartPreview from './global/cart-preview';
 import privacyCookieNotification from './global/cookieNotification';
 import maintenanceMode from './global/maintenanceMode';
@@ -28,7 +27,6 @@ export default class Global extends PageManager {
         currencySelector();
         foundation($(document));
         quickView(this.context);
-        preApproval(this.context);
         carousel();
         menu();
         mobileMenuToggle();
