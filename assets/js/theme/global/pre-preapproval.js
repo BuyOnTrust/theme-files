@@ -121,16 +121,9 @@ const createModalBody = () => {
     
     const title = createModalTitle();
 
-    const description = document.createElement('p');
-    description.setAttribute('class', 'modal-description-text')
-    const descriptionText = document.createElement('p');
-    descriptionText.innerHTML = 'After you click \'Submit\', we\'ll text you a verification code'
-    description.appendChild(descriptionText);
-
     const form = createModalForm();
 
     content.appendChild(title);
-    content.appendChild(description);
     content.appendChild(form);
 
     bodyContainer.appendChild(content);
@@ -151,18 +144,19 @@ const createModalForm = () => {
     form.setAttribute('class', 'capture-info-form');
 
     const nameInput = createInputEl('fullname', 'Full Name', 'text', 'Full Name');
+    const emailInput = createInputEl('email', 'Email', 'email', 'example@example.com');
     const phoneInput = createInputEl('phone', 'Phone Number', 'tel', '801-456-7890');
-    const acimaSpan = createAcimaPolicySpan();
+
     const textOptSpan = document.createElement('span');
     textOptSpan.innerHTML = 'I agree to recieve text messages from BuyOnTrust (standard SMS charges may apply)'
     
-    const acimaPolicy = createFormPolicy('acima-policy', false, acimaSpan);
     const botPolicy = createFormPolicy('phone-policy', true, textOptSpan);
     const submitButton = createModalButton();
 
     form.appendChild(nameInput);
+    form.appendChild(emailInput);
     form.appendChild(phoneInput);
-    form.appendChild(acimaPolicy);
+
     form.appendChild(botPolicy);
     form.appendChild(submitButton);
     return form;
@@ -172,7 +166,7 @@ const createModalButton = () => {
     const button = document.createElement('button');
     button.setAttribute('class', 'prepre-submit-btn');
     button.setAttribute('type', 'submit');
-    button.innerHTML = 'Submit';
+    button.innerHTML = 'Continue';
     return button;
 };
 
@@ -215,31 +209,4 @@ const createFormPolicy = (name, checked, span) => {
     return policyForm;
 };
 
-const createAcimaPolicySpan = () => {
-    const span = document.createElement('span');
-    const text1 = document.createTextNode('I have read Acima\'s ');
-    const link1 = createLinkEl('https://www.acimacredit.com/privacy-policy', 'Privacy Policy');
-    const text2 = document.createTextNode(', ');
-    const link2 = createLinkEl('https://www.acimacredit.com/e-sign-policy', 'ESIGN Disclosure');
-    const text3 = document.createTextNode(', and ');
-    const link3 = createLinkEl('https://www.acimacredit.com/terms-of-service', 'Terms of Use');
-
-    span.appendChild(text1);
-    span.appendChild(link1);
-    span.appendChild(text2);
-    span.appendChild(link2);
-    span.appendChild(text3);
-    span.appendChild(link3);
-    return span;
-}
-
-const createLinkEl = (linkout, text) => {
-    const link = document.createElement('a');
-    link.setAttribute('class', 'policy-link');
-    link.setAttribute('href', linkout);
-    link.setAttribute('target', '_blank');
-    link.setAttribute('tabindex', '-1');
-    link.innerHTML = text;
-    return link;
-}
 
